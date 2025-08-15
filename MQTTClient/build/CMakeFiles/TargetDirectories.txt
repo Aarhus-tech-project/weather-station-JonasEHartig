@@ -1,0 +1,3 @@
+C:/Users/jonas/source/repos/weather-station-JonasEHartig/MQTTClient/build/CMakeFiles/HelloWin.dir
+C:/Users/jonas/source/repos/weather-station-JonasEHartig/MQTTClient/build/CMakeFiles/edit_cache.dir
+C:/Users/jonas/source/repos/weather-station-JonasEHartig/MQTTClient/build/CMakeFiles/rebuild_cache.dir
