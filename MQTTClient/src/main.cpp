@@ -27,7 +27,6 @@ static const char* API_URL  = "http://example.com/data";
 
 MYSQL* db_conn = nullptr;
 
-// Insert into MySQL
 void db_insert(double temp, double hum, double tryk) {
     if (!db_conn) {
         std::cerr << "MySQL error: db_conn is null\n";
@@ -43,7 +42,6 @@ void db_insert(double temp, double hum, double tryk) {
     }
 }
 
-// MQTT message callback
 void on_message(struct mosquitto*, void*, const struct mosquitto_message* msg) {
     std::string payload(static_cast<char*>(msg->payload), msg->payloadlen);
     std::cout << "[MQTT] " << msg->topic << " => " << payload << "\n";
@@ -58,6 +56,11 @@ void on_message(struct mosquitto*, void*, const struct mosquitto_message* msg) {
         std::cerr << "JSON parse error: " << e.what() << "\n";
     }
 }
+
+void on_log(mosquitto*, void*, int, const char* s)
+{
+    std::cerr << "[MQTT-LOG] " << s << "\n";
+};
 
 int main() {
     std::cout << "build correkt" << std::endl;
@@ -97,10 +100,6 @@ int main() {
         std::cerr << "Mosquitto connection succeeded\n";
     }
 
-    auto on_log = [](mosquitto*, void*, int, const char* s)
-    {
-        std::cerr << "[MQTT-LOG] " << s << "\n";
-    };
     mosquitto_log_callback_set(client, on_log);
 
     mosquitto_message_callback_set(client, on_message);
@@ -118,6 +117,7 @@ int main() {
     }
 
     int mid = 0;
+    
     rc = mosquitto_subscribe(client, &mid, TOPIC, 0);
     if (rc != MOSQ_ERR_SUCCESS) {
         std::cerr << "Subscribe failed: " << mosquitto_strerror(rc) << "\n";

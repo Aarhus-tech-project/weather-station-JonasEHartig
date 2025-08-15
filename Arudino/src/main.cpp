@@ -79,16 +79,13 @@ void loop() {
 
   bme.read(pres, temp, hum, tempUnit, presUnit);
 
-  // Build JSON message
   char payload[128];
   snprintf(payload, sizeof(payload),
            "{\"temp\":%.2f,\"humidity\":%.2f,\"pressure\":%.2f}",
            temp, hum, pres);
 
-  // Publish to MQTT
   client.publish("vejrstation/data", payload);
 
-  // Also print to Serial
   Serial.println(payload);
 
   delay(5000);
